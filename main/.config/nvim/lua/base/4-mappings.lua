@@ -1055,6 +1055,9 @@ if is_available "toggleterm.nvim" then
   }
   maps.n["<F7>"] = { "<cmd>ToggleTerm<cr>", desc = "terminal" }
   maps.t["<F7>"] = maps.n["<F7>"]
+  maps.n["<c-`>"] = maps.n["<F7>"]
+  maps.t["<c-`>"] = maps.n["<F7>"]
+
   maps.n["<C-'>"] = maps.n["<F7>"] -- requires terminal that supports binding <C-'>
   maps.t["<C-'>"] = maps.n["<F7>"] -- requires terminal that supports binding <C-'>
 end
@@ -1442,7 +1445,7 @@ function M.lsp_mappings(client, bufnr)
         local autoformat_enabled = vim.b.autoformat_enabled
         if autoformat_enabled == nil then autoformat_enabled = vim.g.autoformat_enabled end
         if autoformat_enabled and ((not autoformat.filter) or autoformat.filter(bufnr)) then
-          vim.lsp.buf.format(vim.tbl_deep_extend("force", M.format_opts, { bufnr = bufnr }))
+          vim.lsp.buf.format(M.format_opts)
         end
       end,
     })
@@ -1547,7 +1550,6 @@ function M.lsp_mappings(client, bufnr)
     desc = "Rename current symbol",
   }
   lsp_mappings.n["<F2>"] = lsp_mappings.n["<leader>lr"]
-  lsp_mappings.n["<C-`>"] = lsp_mappings.n["<leader>lr"]
 
   -- Toggle inlay hints
   if vim.b.inlay_hints_enabled == nil then vim.b.inlay_hints_enabled = vim.g.inlay_hints_enabled end

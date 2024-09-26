@@ -495,6 +495,12 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-nvim-lsp",
+      {
+        "Exafunction/codeium.nvim",
+        cmd = "Codeium",
+        build = ":Codeium Auth",
+        opts = {},
+      },
     },
     event = "InsertEnter",
     opts = function()
@@ -625,6 +631,7 @@ return {
           end, { "i", "s" }),
         },
         sources = cmp.config.sources {
+          { name = "codeium",  priority = 1500},
           { name = "nvim_lsp", priority = 1000 },
           { name = "lazydev",  priority = 850 },
           { name = "luasnip",  priority = 750 },
