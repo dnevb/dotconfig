@@ -16,10 +16,10 @@ vim.opt.cursorline = true -- Highlight the text line of the cursor.
 vim.opt.expandtab = true -- Enable the use of space in tab.
 vim.opt.fileencoding = "utf-8" -- File content encoding for the buffer.
 vim.opt.fillchars = { eob = " " } -- Disable `~` on nonexistent lines.
-vim.opt.foldenable = true -- Enable fold for nvim-ufo.
+vim.opt.foldenable = false -- Enable fold for nvim-ufo.
 vim.opt.foldlevel = 99 -- set highest foldlevel for nvim-ufo.
 vim.opt.foldlevelstart = 99 -- Start with all code unfolded.
-vim.opt.foldcolumn = "1" -- Show foldcolumn in nvim 0.9+.
+vim.opt.foldcolumn = "0" -- Show foldcolumn in nvim 0.9+.
 vim.opt.ignorecase = true -- Case insensitive searching.
 vim.opt.infercase = true -- Infer cases in keyword completion.
 
@@ -48,7 +48,7 @@ vim.opt.shada = "!,'1000,<50,s10,h" -- Remember the last 1000 opened files
 vim.opt.history = 1000 -- Number of commands to remember in a history table (per buffer).
 vim.opt.swapfile = false -- Ask what state to recover when opening a file that was not saved.
 vim.opt.wrap = true -- Disable wrapping of lines longer than the width of window.
-vim.opt.colorcolumn = "80" -- PEP8 like character limit vertical bar.
+vim.opt.colorcolumn = "0" -- PEP8 like character limit vertical bar.
 vim.opt.mousescroll = "ver:2,hor:0" -- Disables hozirontal scroll in neovim.
 vim.opt.guicursor = "n:blinkon200,i-ci-ve:ver25" -- Enable cursor blink.
 vim.opt.autochdir = false -- Use current file dir as working dir (See project.nvim).
@@ -74,7 +74,7 @@ vim.g.autoformat_enabled = true -- Enable auto formatting at start.
 vim.g.autopairs_enabled = true -- Enable autopairs at start.
 vim.g.cmp_enabled = true -- Enable completion at start.
 vim.g.codeactions_enabled = false -- Enable displaying 💡 where code actions can be used.
-vim.g.codelens_enabled = false -- Enable automatic codelens refreshing for lsp that support it.
+vim.g.codelens_enabled = true -- Enable automatic codelens refreshing for lsp that support it.
 vim.g.diagnostics_mode = 1 -- Set code linting (0=off, 1=only show in status line, 2=virtual text off, 3=all on).
 vim.g.icons_enabled = true -- Enable icons in the UI (disable if no nerd font is available).
 vim.g.inlay_hints_enabled = false -- Enable always show function parameter names.

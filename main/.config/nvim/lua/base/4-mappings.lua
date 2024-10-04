@@ -116,13 +116,6 @@ maps.n["<leader>q"] = {
   end,
   desc = "Quit",
 }
-maps.n["<Tab>"] = {
-  "<Tab>",
-  noremap = true,
-  silent = true,
-  expr = false,
-  desc = "FIX: Prevent TAB from behaving like <C-i>, as they share the same internal code",
-}
 
 -- clipboard ---------------------------------------------------------------
 
@@ -137,51 +130,51 @@ if not is_android then
   maps.n["<C-p>"] = { '"+p<esc>', desc = "Paste from clipboard" }
 end
 
--- Make 'c' key not copy to clipboard when changing a character.
-maps.n["c"] = { '"_c', desc = "Change without yanking" }
-maps.n["C"] = { '"_C', desc = "Change without yanking" }
-maps.x["c"] = { '"_c', desc = "Change without yanking" }
-maps.x["C"] = { '"_C', desc = "Change without yanking" }
-
--- Make 'x' key not copy to clipboard when deleting a character.
-maps.n["x"] = {
-  -- Also let's allow 'x' key to delete blank lines in normal mode.
-  function()
-    if vim.fn.col "." == 1 then
-      local line = vim.fn.getline "."
-      if line:match "^%s*$" then
-        vim.api.nvim_feedkeys('"_dd', "n", false)
-        vim.api.nvim_feedkeys("$", "n", false)
-      else
-        vim.api.nvim_feedkeys('"_x', "n", false)
-      end
-    else
-      vim.api.nvim_feedkeys('"_x', "n", false)
-    end
-  end,
-  desc = "Delete character without yanking it",
-}
-maps.x["x"] = { '"_x', desc = "Delete all characters in line" }
-
--- Same for shifted X
-maps.n["X"] = {
-  -- Also let's allow 'x' key to delete blank lines in normal mode.
-  function()
-    if vim.fn.col "." == 1 then
-      local line = vim.fn.getline "."
-      if line:match "^%s*$" then
-        vim.api.nvim_feedkeys('"_dd', "n", false)
-        vim.api.nvim_feedkeys("$", "n", false)
-      else
-        vim.api.nvim_feedkeys('"_X', "n", false)
-      end
-    else
-      vim.api.nvim_feedkeys('"_X', "n", false)
-    end
-  end,
-  desc = "Delete before character without yanking it",
-}
-maps.x["X"] = { '"_X', desc = "Delete all characters in line" }
+-- -- Make 'c' key not copy to clipboard when changing a character.
+-- maps.n["c"] = { '"_c', desc = "Change without yanking" }
+-- maps.n["C"] = { '"_C', desc = "Change without yanking" }
+-- maps.x["c"] = { '"_c', desc = "Change without yanking" }
+-- maps.x["C"] = { '"_C', desc = "Change without yanking" }
+--
+-- -- Make 'x' key not copy to clipboard when deleting a character.
+-- maps.n["x"] = {
+--   -- Also let's allow 'x' key to delete blank lines in normal mode.
+--   function()
+--     if vim.fn.col "." == 1 then
+--       local line = vim.fn.getline "."
+--       if line:match "^%s*$" then
+--         vim.api.nvim_feedkeys('"_dd', "n", false)
+--         vim.api.nvim_feedkeys("$", "n", false)
+--       else
+--         vim.api.nvim_feedkeys('"_x', "n", false)
+--       end
+--     else
+--       vim.api.nvim_feedkeys('"_x', "n", false)
+--     end
+--   end,
+--   desc = "Delete character without yanking it",
+-- }
+-- maps.x["x"] = { '"_x', desc = "Delete all characters in line" }
+--
+-- -- Same for shifted X
+-- maps.n["X"] = {
+--   -- Also let's allow 'x' key to delete blank lines in normal mode.
+--   function()
+--     if vim.fn.col "." == 1 then
+--       local line = vim.fn.getline "."
+--       if line:match "^%s*$" then
+--         vim.api.nvim_feedkeys('"_dd', "n", false)
+--         vim.api.nvim_feedkeys("$", "n", false)
+--       else
+--         vim.api.nvim_feedkeys('"_X', "n", false)
+--       end
+--     else
+--       vim.api.nvim_feedkeys('"_X', "n", false)
+--     end
+--   end,
+--   desc = "Delete before character without yanking it",
+-- }
+-- maps.x["X"] = { '"_X', desc = "Delete all characters in line" }
 
 -- Override nvim default behavior so it doesn't auto-yank when pasting on visual mode.
 maps.x["p"] = { "P", desc = "Paste content you've previourly yanked" }
@@ -311,12 +304,14 @@ maps.n["]b"] = {
   end,
   desc = "Next buffer",
 }
+maps.n["<tab>"] = maps.n["]b"]
 maps.n["[b"] = {
   function()
     require("heirline-components.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1))
   end,
   desc = "Previous buffer",
 }
+maps.n["<s-tab>"] = maps.n["[b"]
 maps.n[">b"] = {
   function()
     require("heirline-components.buffer").move(vim.v.count > 0 and vim.v.count or 1)
@@ -636,7 +631,7 @@ if vim.fn.executable "lazygit" == 1 then -- if lazygit exists, show it
     function()
       local git_dir = vim.fn.finddir(".git", vim.fn.getcwd() .. ";")
       if git_dir ~= "" then
-        vim.cmd("TermExec cmd='lazygit && exit'")
+        vim.cmd("TermExec name='lazygit' cmd='lazygit && exit'")
       else
         utils.notify("Not a git repository", vim.log.levels.WARN)
       end
@@ -1053,7 +1048,7 @@ if is_available "toggleterm.nvim" then
     "<cmd>ToggleTerm size=80 direction=vertical<cr>",
     desc = "Toggleterm vertical split",
   }
-  maps.n["<F7>"] = { "<cmd>ToggleTerm<cr>", desc = "terminal" }
+  maps.n["<F7>"] = { "<cmd>ToggleTerm name='global'<cr>", desc = "terminal" }
   maps.t["<F7>"] = maps.n["<F7>"]
   maps.n["<c-`>"] = maps.n["<F7>"]
   maps.t["<c-`>"] = maps.n["<F7>"]
