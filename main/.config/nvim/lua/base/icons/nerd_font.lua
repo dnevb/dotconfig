@@ -14,6 +14,7 @@ return {
   ArrowRight = "",
   Bookmarks = "",
   BufferClose = "x",
+  Codeium = "󰘦 ",
   DapBreakpoint = "",
   DapBreakpointCondition = "",
   DapBreakpointRejected = "",
