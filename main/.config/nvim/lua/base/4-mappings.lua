@@ -899,6 +899,10 @@ if is_available "telescope.nvim" then
     function() require("telescope.builtin").registers() end,
     desc = "Find vim registers",
   }
+  maps.n["<leader> "] = {
+    function() require("telescope.builtin").find_files() end,
+    desc = "Find files",
+  }
   maps.n["<leader>ft"] = {
     function()
       -- load color schemes before listing them
@@ -1346,21 +1350,34 @@ function M.lsp_mappings(client, bufnr)
 
   -- Diagnostics
   lsp_mappings.n["<leader>ld"] = { function() vim.diagnostic.open_float() end, desc = "Hover diagnostics" }
-  lsp_mappings.n["[d"] = { function()
+  lsp_mappings.n["[d"] = {
+    function()
       -- TODO: Delete after dropping nvim 0.10 support.
-      if vim.fn.has('nvim-0.11') == 1 then vim.diagnostic.jump({ count = -1 })
-      else vim.diagnostic.goto_prev() end end, desc = "Previous diagnostic"
+      if vim.fn.has('nvim-0.11') == 1 then
+        vim.diagnostic.jump({ count = -1 })
+      else
+        vim.diagnostic.goto_prev()
+      end
+    end,
+    desc = "Previous diagnostic"
   }
-  lsp_mappings.n["]d"] = { function()
-    -- TODO: Delete after dropping nvim 0.10 support.
-    if vim.fn.has('nvim-0.11') == 1 then vim.diagnostic.jump({ count = 1 })
-    else vim.diagnostic.goto_next() end end, desc = "Next diagnostic" }
+  lsp_mappings.n["]d"] = {
+    function()
+      -- TODO: Delete after dropping nvim 0.10 support.
+      if vim.fn.has('nvim-0.11') == 1 then
+        vim.diagnostic.jump({ count = 1 })
+      else
+        vim.diagnostic.goto_next()
+      end
+    end,
+    desc = "Next diagnostic"
+  }
 
   -- Diagnostics
   lsp_mappings.n["gl"] = { function() vim.diagnostic.open_float() end, desc = "Hover diagnostics" }
   if is_available "telescope.nvim" then
     lsp_mappings.n["<leader>lD"] =
-      { function() require("telescope.builtin").diagnostics() end, desc = "Diagnostics" }
+    { function() require("telescope.builtin").diagnostics() end, desc = "Diagnostics" }
   end
 
   -- LSP info
@@ -1425,9 +1442,9 @@ function M.lsp_mappings(client, bufnr)
   local autoformat = formatting.format_on_save
   local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
   if
-    autoformat.enabled
-    and (vim.tbl_isempty(autoformat.allow_filetypes or {}) or vim.tbl_contains(autoformat.allow_filetypes, filetype))
-    and (vim.tbl_isempty(autoformat.ignore_filetypes or {}) or not vim.tbl_contains(autoformat.ignore_filetypes, filetype))
+      autoformat.enabled
+      and (vim.tbl_isempty(autoformat.allow_filetypes or {}) or vim.tbl_contains(autoformat.allow_filetypes, filetype))
+      and (vim.tbl_isempty(autoformat.ignore_filetypes or {}) or not vim.tbl_contains(autoformat.ignore_filetypes, filetype))
   then
     utils.add_autocmds_to_buffer("lsp_auto_format", bufnr, {
       events = "BufWritePre",
